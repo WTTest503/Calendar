@@ -55,6 +55,25 @@ function toggleFullScreen() {
     }
 }
 
+function refreshAt(hours, minutes, seconds) {
+    let now = new Date();
+    let then = new Date();
+
+    if(now.getHours() > hours ||
+       (now.getHours() == hours && now.getMinutes() > minutes) ||
+        now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
+        then.setDate(now.getDate() + 1);
+    }
+    then.setHours(hours);
+    then.setMinutes(minutes);
+    then.setSeconds(seconds);
+
+    let timeout = (then.getTime() - now.getTime());
+    console.log(then.getTime(), now.getTime())
+    console.log(timeout)
+    setTimeout(function() { window.location.reload(true); }, timeout);
+}
+
 document.addEventListener("keydown", (e) => {
     if (e.key === "Enter") {
       toggleFullScreen();
@@ -67,8 +86,10 @@ let transitionSpeed = configuration.transitionSpeed
 let eventStart = new Date()
 let eventEnd = new Date()
 let dateOffset = configuration.dateOffset
+let resetTime = configuration.resetTime
 
 eventEnd.setDate(eventEnd.getDate() + dateOffset)
 getData(eventStart.toISOString(), eventEnd.toISOString())
 setInterval(setToBottom,5)
+refreshAt(4,0,0)
 
