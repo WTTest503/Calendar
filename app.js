@@ -35,7 +35,7 @@ function setToBottom() {
     parentDiv.style.transform = `translateY(${translation}px)`
     translation -= transitionSpeed
     
-    if (translation < -cardHeight) {
+    if (translation < -cardHeight - 15) {
         translation = 0
         parentDiv.style.transform = `translateY(${translation}px)`
         parentDiv.appendChild(parentDiv.firstElementChild)
