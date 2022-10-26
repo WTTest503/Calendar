@@ -1,6 +1,5 @@
-//async function to handle data fetching
 async function getData (eStart, eEnd) {
-    //try catch block to handle promises and errors
+
     try {
         const calendarId = configuration.calendarId
         const myKey = configuration.myKey
@@ -9,9 +8,7 @@ async function getData (eStart, eEnd) {
 
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
-        activeEvents = activeEvents.filter(event => event.status != 'cancelled')
-        console.log(activeEvents)
-        activeEvents = activeEvents.sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
+        activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
         for (evnt in activeEvents) {
             let title = activeEvents[evnt].summary
             if(activeEvents[evnt].start.hasOwnProperty('dateTime')) {
@@ -44,7 +41,6 @@ function setToBottom() {
         parentDiv.appendChild(parentDiv.firstElementChild)
     }
     
-    //parentDiv.appendChild(parentDiv.firstElementChild)
 }
 
 function toggleFullScreen() {
@@ -69,8 +65,6 @@ function refreshAt(hours, minutes, seconds) {
     then.setSeconds(seconds);
 
     let timeout = (then.getTime() - now.getTime());
-    console.log(then.getTime(), now.getTime())
-    console.log(timeout)
     setTimeout(function() { window.location.reload(true); }, timeout);
 }
 
