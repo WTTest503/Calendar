@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    * {
+        font-family: "Helvetica Neue", Helvetica, Sans-Serif;
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+        color:#f0f0f0dd;
+
+    }
+    body {
+        overflow: hidden;
+        background: #000000;  /* fallback for old browsers */
+        background: -webkit-linear-gradient(to left, #434343, #000000);  /* Chrome 10-25, Safari 5.1-6 */
+        background: linear-gradient(to left, #434343, #000000); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    }
+    .column {
+        float: left;
+        padding: 0px;
+    }
+
+    .topSection {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .bottomSection {
+        display: flex;
+    }
+    .right {
+        /*width: 25%;*/
+        flex:1;
+    }
+
+    .left {
+        /*width: 75%;*/
+        border-right: 3px solid black;
+        /*border-radius: 5px;*/
+        flex:2;
+        /*height: 900px;*/
+        overflow: hidden;
+    }
+
+    #theBase {
+        height: 100%;
+        text-align: center;
+    }
+    .scrollCard {
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+        padding-top: 5px
+    }
+</style>
+
+<body>
+
+    <div class="topSection">
+        <img src="Logo_with_no_Backround.png">
+        <div style="flex:1;">
+            <h1 style="text-align:center;">Upcoming Events</h1>
+        </div>
+    </div>
+    <div class="bottomSection">
+        <div class="scrollText column left">
+            <div id="theBase">
+            </div>
+        </div>
+        <div class="column right"><p style="margin-left:1em;">this will be right side content</p></div>
+    </div>
+</body>
+<script src="config.js"></script>
+<script src="app.js"></script>
+
+</html>
