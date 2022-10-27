@@ -9,21 +9,45 @@ async function getData (eStart, eEnd) {
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
         activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
-        for (evnt in activeEvents) {
+        sortedEvents = groupDates(activeEvents)
+        
+
+        for (evt in sortedEvents) {
+            let eventDate = new Date(evt)
+            eventDate = `${eventDate.toLocaleString('default', { month: 'long' })} ${eventDate.getDate()}`
+            console.log(eventDate)
+            console.log(sortedEvents[evt])
+            let innerList = ''
+            for (subEvt in sortedEvents[evt]) {
+                console.log(sortedEvents[evt][subEvt])
+                let title = sortedEvents[evt][subEvt].summary
+                let eventStart = new Date(sortedEvents[evt][subEvt].start.dateTime)
+                let eventEnd = new Date(sortedEvents[evt][subEvt].end.dateTime)
+                let eventStartTime = eventStart.toLocaleTimeString()
+                let eventEndTime = eventEnd.toLocaleTimeString()
+                innerList += `<li><p class="cardTitle">${title}</p>  <p class="eventTime">${eventStartTime} - ${eventEndTime}</p></li>`
+            }
+                
+            document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><div class="grid1"><p class="eventDate">${eventDate}</p></div><div class="grid2"><ul class="eventList">${innerList}</ul></div></div>`
+
+        }
+
+        /*for (evnt in activeEvents) {
             let title = activeEvents[evnt].summary
             if(activeEvents[evnt].start.hasOwnProperty('dateTime')) {
                 let eventStart = new Date(activeEvents[evnt].start.dateTime)
                 let eventEnd = new Date(activeEvents[evnt].end.dateTime)
                 let eventStartTime = eventStart.toLocaleTimeString()
                 let eventEndTime = eventEnd.toLocaleTimeString()
-                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p><p class="cardTitle">${title}</p><p class="eventTime">${eventStartTime} - ${eventEndTime}</p></div>`
+                let eventMonth = eventStart.toLocaleString('default', { month: 'long' })
+                let eventDay = eventStart.getDate()
+                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${eventMonth} ${eventDay}</p><p class="cardTitle">${title}</p><p class="eventTime">${eventStartTime} - ${eventEndTime}</p></div>`
             }
             else {
-                let eventStart = new Date(activeEvents[evnt].start.date)
-                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p><p class="cardTitle">${title}</p></div>`
+                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${eventMonth} ${eventDay}</p><p class="cardTitle">${title}</p></div>`
     
             }
-        }
+        }*/
     } catch (error) {
         console.log(error)
     }
@@ -49,6 +73,19 @@ function toggleFullScreen() {
     } else if (document.exitFullscreen) {
       document.exitFullscreen();
     }
+}
+
+function groupDates (a) {
+    let groupedEvents = {}
+    a.forEach((evt) => {
+        const date = evt.start.dateTime.split('T')[0]
+        if (groupedEvents[date]) {
+            groupedEvents[date].push(evt);
+        } else {
+            groupedEvents[date] = [evt];
+        }
+    })
+    return groupedEvents
 }
 
 function refreshAt(hours, minutes, seconds) {
