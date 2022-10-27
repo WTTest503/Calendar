@@ -16,11 +16,11 @@ async function getData (eStart, eEnd) {
                 let eventEnd = new Date(activeEvents[evnt].end.dateTime)
                 let eventStartTime = eventStart.toLocaleTimeString()
                 let eventEndTime = eventEnd.toLocaleTimeString()
-                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><h1>${title}</h1><p>${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p><p>${eventStartTime} - ${eventEndTime}</p></div>`
+                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p><p class="cardTitle">${title}</p><p class="eventTime">${eventStartTime} - ${eventEndTime}</p></div>`
             }
             else {
                 let eventStart = new Date(activeEvents[evnt].start.date)
-                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><h1>${title}</h1><p>${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p></div>`
+                document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><p class="eventDate">${(eventStart.getMonth() + 1)}-${eventStart.getDate()}-${eventStart.getFullYear()}</p><p class="cardTitle">${title}</p></div>`
     
             }
         }
