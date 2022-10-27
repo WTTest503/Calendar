@@ -9,6 +9,10 @@
     <title>Document</title>
 </head>
 <style>
+    :root {
+        --bigFont: 3em;
+        --mediumFont: 1.5em;
+    }
     * {
         font-family: "Helvetica Neue", Helvetica, Sans-Serif;
         box-sizing: border-box;
@@ -21,12 +25,8 @@
     body {
         overflow: hidden;
         background: #000000;
-        /* fallback for old browsers */
         background: -webkit-linear-gradient(to left, #434343, #000000);
-        /* Chrome 10-25, Safari 5.1-6 */
         background: linear-gradient(to left, #434343, #000000);
-        /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-
     }
 
     .column {
@@ -46,16 +46,11 @@
     }
 
     .right {
-        /*width: 25%;*/
         flex: 1;
     }
 
     .left {
-        /*width: 75%;*/
-        /*border-right: 3px solid black;*/
-        /*border-radius: 5px;*/
         flex: 2;
-        /*height: 900px;*/
         overflow: hidden;
     }
 
@@ -74,7 +69,7 @@
         margin-top: 15px;
         background-color: #31103d;
         display:grid;
-        grid-template-columns: .9fr 2fr .5fr;
+        grid-template-columns: .9fr 2fr .4fr;
         align-items: center;
 
     }
@@ -88,27 +83,30 @@
     }
 
     .eventDate {
-        font-size: 3em;
+        font-size: var(--bigFont);
         float:left;
         margin:15px
     }
 
     .eventTime {
-        font-size: 1.5em;
+        font-size: var(--mediumFont);
         float: right;
     }
+
     .eventList {
         list-style: none;
         display:grid;
         grid-template-rows: auto;
     }
+
     .dateSection {
         display:grid;
         grid-template-rows: auto;
     }
+
     .cardTitle {
 
-        font-size: 1.5em;
+        font-size: var(--mediumFont);
         float: left;
         text-align: left;
     }
@@ -119,6 +117,15 @@
         padding-top:0.5em;
     }
 
+    .ordinal {
+        font-size: calc(var(--mediumFont) / 2);
+    }
+
+    .headerTitle {
+        text-align: center;
+        font-size: calc(var(--bigFont) * 3);
+    }
+
 </style>
 
 <body>
@@ -126,7 +133,7 @@
     <div class="topSection">
         <img style="height:300px;" src="Logo_with_no_Backround.png">
         <div style="flex:1;">
-            <h1 style="text-align:center;">Upcoming Events</h1>
+            <h1 class="headerTitle">Upcoming Events</h1>
         </div>
     </div>
     <div class="bottomSection">

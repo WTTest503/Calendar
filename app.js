@@ -15,7 +15,8 @@ async function getData (eStart, eEnd) {
             
             let eventDate = new Date(`${evt}T00:00:00`)
             eventDateMonth = `${eventDate.toLocaleString('default', { month: 'long' })}`
-            eventDateDay = `${eventDate.getDate()}`
+            dateOrdinal = nth(eventDate.getDate())
+            eventDateDay = `${eventDate.getDate()}<span class="ordinal">${dateOrdinal}<span>`
             let innerList = ''
             for (subEvt in sortedEvents[evt]) {
                 let title = sortedEvents[evt][subEvt].summary
@@ -92,6 +93,16 @@ document.addEventListener("keydown", (e) => {
       toggleFullScreen();
     }
 }, false);
+
+const nth = function(d) {
+    if (d > 3 && d < 21) return 'th';
+    switch (d % 10) {
+      case 1:  return "st";
+      case 2:  return "nd";
+      case 3:  return "rd";
+      default: return "th";
+    }
+}
 
 let translation = 0
 let cardHeight = configuration.cardHeight
