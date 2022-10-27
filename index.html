@@ -74,7 +74,7 @@
         margin-top: 15px;
         background-color: #31103d;
         display:grid;
-        grid-template-columns: 1fr 2fr;
+        grid-template-columns: .9fr 2fr .5fr;
         align-items: center;
 
     }
@@ -94,17 +94,31 @@
     }
 
     .eventTime {
-        font-size: 2em;
-        display:inline-block;
+        font-size: 1.5em;
+        float: right;
     }
     .eventList {
         list-style: none;
+        display:grid;
+        grid-template-rows: auto;
+    }
+    .dateSection {
+        display:grid;
+        grid-template-rows: auto;
     }
     .cardTitle {
 
-        font-size: 2em;
-        display:inline-block;
+        font-size: 1.5em;
+        float: left;
+        text-align: left;
     }
+    .theEvents {
+        display:grid;
+        grid-template-columns: 2fr .5fr;
+        align-items: center;
+        padding-top:0.5em;
+    }
+
 </style>
 
 <body>
