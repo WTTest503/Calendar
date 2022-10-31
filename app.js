@@ -3,14 +3,13 @@ async function getData (eStart, eEnd) {
     try {
         const calendarId = configuration.calendarId
         const myKey = configuration.myKey
-
         let apiCall = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?showDeleted=false&timeMin=${eStart}&timeMax=${eEnd}&key=${myKey}`)
 
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
         activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
         sortedEvents = groupDates(activeEvents)
-        
+        document.getElementById('theBase').innerHTML = ''
         for (evt in sortedEvents) {
             
             let eventDate = new Date(`${evt}T00:00:00`)
@@ -30,9 +29,11 @@ async function getData (eStart, eEnd) {
             document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><div class="dateSection"><p class="eventDate">${eventDateMonth}</p><p class="eventDate">${eventDateDay}</p></div><div><ul class="eventList">${innerList}</ul></div></div>`
 
         }
+        refreshAt(resetTime,0,0)
 
     } catch (error) {
         console.log(error)
+        refreshAt(resetTime,0,0)
     }
 }
 
@@ -71,10 +72,15 @@ function groupDates (a) {
     return groupedEvents
 }
 
+Date.prototype.addDays = function(days) {
+    var nDate = new Date(this.valueOf());
+    nDate.setDate(nDate.getDate() + days);
+    return nDate;
+}
+
 function refreshAt(hours, minutes, seconds) {
     let now = new Date();
     let then = new Date();
-
     if(now.getHours() > hours ||
        (now.getHours() == hours && now.getMinutes() > minutes) ||
         now.getHours() == hours && now.getMinutes() == minutes && now.getSeconds() >= seconds) {
@@ -83,9 +89,10 @@ function refreshAt(hours, minutes, seconds) {
     then.setHours(hours);
     then.setMinutes(minutes);
     then.setSeconds(seconds);
-
     let timeout = (then.getTime() - now.getTime());
-    setTimeout(function() { window.location.reload(true); }, timeout);
+    eventStart = eventStart.addDays(1)
+    eventEnd = eventEnd.addDays(1)
+    setTimeout(() => {getData(eventStart.toISOString(), eventEnd.toISOString())}, timeout);
 }
 
 document.addEventListener("keydown", (e) => {
@@ -115,5 +122,4 @@ let resetTime = configuration.resetTime
 eventEnd.setDate(eventEnd.getDate() + dateOffset)
 getData(eventStart.toISOString(), eventEnd.toISOString())
 setInterval(setToBottom,5)
-refreshAt(4,0,0)
 
