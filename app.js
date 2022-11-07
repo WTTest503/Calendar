@@ -42,7 +42,6 @@ function setToBottom() {
     parentDiv = document.querySelector('#theBase')
     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
         parentDiv.style.MozTransform = `translateY(${translation}px)`
-        console.log('mozills')
     } else {
         parentDiv.style.transform = `translateY(${translation}px)`
     }
