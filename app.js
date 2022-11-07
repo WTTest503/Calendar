@@ -40,12 +40,22 @@ async function getData (eStart, eEnd) {
 function setToBottom() {
 
     parentDiv = document.querySelector('#theBase')
-    parentDiv.style.transform = `translateY(${translation}px)`
+    if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+        parentDiv.style.MozTransform = `translateY(${translation}px)`
+        console.log('mozills')
+    } else {
+        parentDiv.style.transform = `translateY(${translation}px)`
+    }
     translation -= transitionSpeed
     
     if (translation < -cardHeight - 15) {
         translation = 0
-        parentDiv.style.transform = `translateY(${translation}px)`
+        if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1) {
+            parentDiv.style.MozTransform = `translateY(${translation}px)`
+        } else {
+            parentDiv.style.transform = `translateY(${translation}px)`
+
+        }
         parentDiv.appendChild(parentDiv.firstElementChild)
     }
     
