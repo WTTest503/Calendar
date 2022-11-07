@@ -113,7 +113,11 @@ const nth = function(d) {
 
 let translation = 0
 let cardHeight = configuration.cardHeight
+
 let transitionSpeed = configuration.transitionSpeed
+if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
+    transitionSpeed *= 3.05
+}
 let eventStart = new Date()
 let eventEnd = new Date()
 let dateOffset = configuration.dateOffset
