@@ -7,26 +7,48 @@ async function getData (eStart, eEnd) {
 
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
-        activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => new Date(a.start.dateTime) - new Date(b.start.dateTime))
+        activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => {
+            let dateA, dateB
+            
+            if (a.start.date) {
+                dateA = new Date(a.start.date)
+            }
+            else {
+                dateA = new Date(a.start.dateTime)
+            }
+            if (b.start.date) {
+                dateB = new Date(b.start.date)
+            }
+            else {
+                dateB = new Date(b.start.dateTime)
+            }
+            return dateA - dateB
+        
+        })
         sortedEvents = groupDates(activeEvents)
         document.getElementById('theBase').innerHTML = ''
         for (evt in sortedEvents) {
-            
             let eventDate = new Date(`${evt}T00:00:00`)
-            eventDateMonth = `${eventDate.toLocaleString('default', { month: 'long' })}`
+            eventDateMonth = `${eventDate.toLocaleString('default', { month: 'long' })}`.toUpperCase()
             dateOrdinal = nth(eventDate.getDate())
-            eventDateDay = `${eventDate.getDate()}<span class="ordinal">${dateOrdinal}<span>`
+            eventDateDay = `${eventDate.getDate()}`//<span class="ordinal">${dateOrdinal}<span>
             let innerList = ''
+            let title, eventStart, eventEnd, eventStartTime, eventEndTime
             for (subEvt in sortedEvents[evt]) {
-                let title = sortedEvents[evt][subEvt].summary
-                let eventStart = new Date(sortedEvents[evt][subEvt].start.dateTime)
-                let eventEnd = new Date(sortedEvents[evt][subEvt].end.dateTime)
-                let eventStartTime = eventStart.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
-                let eventEndTime = eventEnd.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
-                innerList += `<li class="theEvents"><p class="cardTitle">${title}</p>  <p class="eventTime">${eventStartTime}</p></li>`
+                if (sortedEvents[evt][subEvt].start.date) {
+                    title = sortedEvents[evt][subEvt].summary
+                    innerList += `<li class="theEvents"><p class="cardTitle">${title}</p></li>`
+                } else {
+                    title = sortedEvents[evt][subEvt].summary
+                    eventStart = new Date(sortedEvents[evt][subEvt].start.dateTime)
+                    eventEnd = new Date(sortedEvents[evt][subEvt].end.dateTime)
+                    eventStartTime = eventStart.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+                    eventEndTime = eventEnd.toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'})
+                    innerList += `<li class="theEvents"><p class="cardTitle">${title}</p>  <p class="eventTime">${eventStartTime}</p></li>`
+                }
             }
                 
-            document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><div class="dateSection"><p class="eventDate">${eventDateMonth}</p><p class="eventDate">${eventDateDay}</p></div><div><ul class="eventList">${innerList}</ul></div></div>`
+            document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><div class="dateSection"><p class="eventDate dayName">${eventDateDay}</p><p class="eventDate monthName">${eventDateMonth}</p></div><div class="listContainer"><ul class="eventList">${innerList}</ul></div></div>`
 
         }
         refreshAt(resetTime,0,0)
@@ -76,15 +98,43 @@ function toggleFullScreen() {
     }
 }
 
+function getDatesInRange(startDate, endDate) {
+    const date = new Date(`${startDate}T00:00:00`);
+    endDate = new Date(`${endDate}T00:00:00`)
+    const dates = [];
+    let currDate
+    while (date < endDate) {
+      currDate = new Date(date)
+      dates.push(`${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`);
+      date.setDate(date.getDate() + 1);
+    }
+    return dates;
+}
+
 function groupDates (a) {
     let groupedEvents = {}
     a.forEach((evt) => {
-        const date = evt.start.dateTime.split('T')[0]
-        if (groupedEvents[date]) {
-            groupedEvents[date].push(evt);
+        let date, dateEnd, dateRange
+        if (evt.start.dateTime) {
+            date = evt.start.dateTime.split('T')[0]
+            if (groupedEvents[date]) {
+                groupedEvents[date].push(evt);
+            } else {
+                groupedEvents[date] = [evt];
+            }
         } else {
-            groupedEvents[date] = [evt];
+            date = evt.start.date
+            dateEnd = evt.end.date
+            dateRange = getDatesInRange(date, dateEnd)
+            dateRange.forEach((dte) => {
+                if (groupedEvents[dte]) {
+                    groupedEvents[dte].push(evt);
+                } else {
+                    groupedEvents[dte] = [evt];
+                }
+            })
         }
+        
     })
     return groupedEvents
 }

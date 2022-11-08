@@ -1,6 +1,7 @@
 :root {
     --bigFont: 3em;
     --mediumFont: 2em;
+    --purpleColor: #31103d;
 }
 
 * {
@@ -50,16 +51,17 @@ body {
 }
 
 .scrollCard {
-    border-style: solid;
+    /*border-style: solid;
     border-width: 4px 4px 4px 4px;
-    border-color: white;
+    border-color: white;*/
     border-radius: 0.3rem;
     /*box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;*/
     margin-left: 1em;
     margin-top: 15px;
-    background-color: #31103d;
+    /*background-color: #31103d;*/
+    background-color: rgb(241, 241, 241);
     display: grid;
-    grid-template-columns: .9fr 2fr .4fr;
+    grid-template-columns: .4fr 2fr .4fr;
     align-items: center;
 
 }
@@ -73,46 +75,64 @@ body {
 }
 
 .eventDate {
-    font-size: var(--bigFont);
+    font-size: calc(var(--bigFont) * 1.5);
     float: left;
-    margin: 15px
+    font-weight:bold;
+    /*margin: 15px*/
+}
+
+.monthName {
+    align-self:start;
+    font-size: var(--mediumFont);
+}
+.dayName {
+    align-self:end;
 }
 
 .eventTime {
     font-size: var(--mediumFont);
     float: right;
+    color:black;
 }
 
 .eventList {
     list-style: none;
     display: grid;
     grid-template-rows: auto;
+    margin-left:2em;
 }
 
 .dateSection {
     display: grid;
     grid-template-rows: auto;
-    /*background-color: #1C3D10;*/
+    background-color: #31103d;
     height: 100%;
     margin-right: 1em;
+    
+}
+
+.listContainer {
+    align-self: auto;
 }
 
 .cardTitle {
-
+    font-weight: 600;
     font-size: var(--mediumFont);
     float: left;
     text-align: left;
+    color:black;
 }
 
 .theEvents {
     display: grid;
     grid-template-columns: 2fr .5fr;
     align-items: center;
-    padding-top: 0.5em;
+    padding-top: 0.2em;
+    /*border-bottom: 1px solid rgb(230, 230, 230);*/
 }
 
 .ordinal {
-    font-size: calc(var(--mediumFont) / 2);
+    font-size: calc(var(--mediumFont) / 2.5);
 }
 
 .headerTitle {
