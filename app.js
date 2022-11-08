@@ -37,7 +37,13 @@ async function getData (eStart, eEnd) {
     }
 }
 
-function setToBottom() {
+
+function setToBottomAnim(time) {
+
+    if (lastTime === undefined) {
+        lastTime = time
+    }
+    const delta = time - lastTime
 
     parentDiv = document.querySelector('#theBase')
     if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
@@ -45,7 +51,8 @@ function setToBottom() {
     } else {
         parentDiv.style.transform = `translateY(${translation}px)`
     }
-    translation -= transitionSpeed
+
+    translation -= transitionSpeed * (delta * .1)
     
     if (translation < -cardHeight - 15) {
         translation = 0
@@ -53,10 +60,11 @@ function setToBottom() {
             parentDiv.style.MozTransform = `translateY(${translation}px)`
         } else {
             parentDiv.style.transform = `translateY(${translation}px)`
-
         }
         parentDiv.appendChild(parentDiv.firstElementChild)
     }
+    lastTime = time
+    window.requestAnimationFrame(setToBottomAnim)
     
 }
 
@@ -123,10 +131,8 @@ const nth = function(d) {
 let translation = 0
 let cardHeight = configuration.cardHeight
 
+let lastTime
 let transitionSpeed = configuration.transitionSpeed
-if(navigator.userAgent.toLowerCase().indexOf('firefox') > -1){
-    transitionSpeed *= 3.05
-}
 let eventStart = new Date()
 let eventEnd = new Date()
 let dateOffset = configuration.dateOffset
@@ -134,5 +140,5 @@ let resetTime = configuration.resetTime
 
 eventEnd.setDate(eventEnd.getDate() + dateOffset)
 getData(eventStart.toISOString(), eventEnd.toISOString())
-setInterval(setToBottom,5)
+window.requestAnimationFrame(setToBottomAnim)
 
