@@ -78,7 +78,7 @@ body {
     font-size: calc(var(--bigFont) * 1.5);
     float: left;
     font-weight:bold;
-    /*margin: 15px*/
+    margin: 0 .2em;
 }
 
 .monthName {
