@@ -3,10 +3,11 @@ async function getData (eStart, eEnd) {
     try {
         const calendarId = configuration.calendarId
         const myKey = configuration.myKey
-        let apiCall = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?showDeleted=false&timeMin=${eStart}&timeMax=${eEnd}&key=${myKey}`)
+        let apiCall = await fetch(`https://www.googleapis.com/calendar/v3/calendars/${calendarId}/events?showDeleted=false&singleEvents=true&timeMin=${eStart}&timeMax=${eEnd}&key=${myKey}`)
 
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
+        console.log(activeEvents)
         activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => {
             let dateA, dateB
             
@@ -25,6 +26,7 @@ async function getData (eStart, eEnd) {
             return dateA - dateB
         
         })
+        
         sortedEvents = groupDates(activeEvents)
         document.getElementById('theBase').innerHTML = ''
         for (evt in sortedEvents) {
