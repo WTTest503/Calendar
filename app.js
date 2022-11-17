@@ -7,7 +7,6 @@ async function getData (eStart, eEnd) {
 
         let activeEvents = await apiCall.json()
         activeEvents = [...activeEvents.items]
-        console.log(activeEvents)
         activeEvents = activeEvents.filter(event => event.status != 'cancelled').sort((a, b) => {
             let dateA, dateB
             
@@ -26,7 +25,6 @@ async function getData (eStart, eEnd) {
             return dateA - dateB
         
         })
-        
         sortedEvents = groupDates(activeEvents)
         document.getElementById('theBase').innerHTML = ''
         for (evt in sortedEvents) {
@@ -49,7 +47,7 @@ async function getData (eStart, eEnd) {
                     innerList += `<li class="theEvents"><p class="cardTitle">${title}</p>  <p class="eventTime">${eventStartTime}</p></li>`
                 }
             }
-                
+            
             document.getElementById('theBase').innerHTML += `<div style="height:${cardHeight}px;" class='scrollCard'><div class="dateSection"><p class="eventDate dayName">${eventDateDay}</p><p class="eventDate monthName">${eventDateMonth}</p></div><div class="listContainer"><ul class="eventList">${innerList}</ul></div></div>`
 
         }
@@ -107,7 +105,15 @@ function getDatesInRange(startDate, endDate) {
     let currDate
     while (date < endDate) {
       currDate = new Date(date)
-      dates.push(`${currDate.getFullYear()}-${currDate.getMonth() + 1}-${currDate.getDate()}`);
+      let theDay = ''
+      if (currDate.getDate().toString().length === 1) {
+        theDay = '0' +currDate.getDate().toString()
+      }
+      else {
+        theDay = currDate.getDate()
+      }
+      dates.push(`${currDate.getFullYear()}-${currDate.getMonth() + 1}-${theDay}`);
+      
       date.setDate(date.getDate() + 1);
     }
     return dates;
