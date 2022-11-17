@@ -8,13 +8,12 @@ const {app, BrowserWindow, Menu} = require('electron')
       visible: false,
       accelerator: "Esc",
       click(item, focusedWindow) {
-          /*if (focusedWindow.isFullScreen()) {
+          if (focusedWindow.isFullScreen()) {
               focusedWindow.setFullScreen(false)
           }
           else {
               focusedWindow.setFullScreen(true)
-          }*/
-          app.quit()
+          }
       },
   }
     
