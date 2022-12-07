@@ -141,13 +141,13 @@ body {
 }
 
 .rulesItem {
-    font-size: calc(var(--mediumFont) * .5);
+    font-size: calc(var(--mediumFont) * .6);
     margin-bottom: 1em;
     text-align: center;
 }
 
 .rulesTitle {
-    font-size: calc(var(--mediumFont) * .6);
+    font-size: calc(var(--mediumFont) * .7);
     width:100%;
     text-align: center;
     margin-bottom: .2em;
