@@ -112,7 +112,14 @@ function getDatesInRange(startDate, endDate) {
       else {
         theDay = currDate.getDate()
       }
-      dates.push(`${currDate.getFullYear()}-${currDate.getMonth() + 1}-${theDay}`);
+
+      tempMonth = (currDate.getMonth() + 1).toString()
+      
+      if (tempMonth.length === 1) {
+        tempMonth = `0${tempMonth}`
+      }
+
+      dates.push(`${currDate.getFullYear()}-${tempMonth}-${theDay}`);
       
       date.setDate(date.getDate() + 1);
     }
