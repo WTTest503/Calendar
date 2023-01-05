@@ -11,13 +11,13 @@ async function getData (eStart, eEnd) {
             let dateA, dateB
             
             if (a.start.date) {
-                dateA = new Date(a.start.date)
+                dateA = new Date(a.start.date.replace('-', '/'))
             }
             else {
                 dateA = new Date(a.start.dateTime)
             }
             if (b.start.date) {
-                dateB = new Date(b.start.date)
+                dateB = new Date(b.start.date.replace('-', '/'))
             }
             else {
                 dateB = new Date(b.start.dateTime)
